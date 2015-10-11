@@ -1,29 +1,22 @@
 #!/usr/bin/env racket
 #lang racket
 
-(define sample '(3 4 6 6))
+(define sample '(3 4 6 5))
 
 (define (S l-i rst)
   (cond
       [(empty? rst) 1]
-      [else (+ 1 (max! l-i rst))]))
+      [(empty? (filter (curry >= l-i) rst)) 1]
+      [else (+ 1
+               (apply max
+                      (map S
+                           (filter (curry >= l-i) rst)
+                           (create-list (filter (curry >= l-i)
+                                                rst)))))]))
 
-(define (max! l-i rst)
-  (apply max (crt l-i rst)))
-
-(define (crt x lst)
-  (cond
-      [(empty? lst) '(0)]
-      [else (cons (srch x lst) (crt x (cdr lst)))]))
-
-(define (srch x y)
-  (cond
-     [(>= x (car y)) (S (car y) (cdr y))]
-     [else 0]))
-
-(define (search-big lst)
+(define (create-list l)
     (cond
-        [(empty? lst) empty]
-        [else (cons (S (car lst) (cdr lst)) (search-big (cdr lst)) ) ]))
+        [(empty? l) empty]
+        [else (cons (cdr l) (create-list (cdr l)))]))
 
-(apply max (search-big (reverse sample)))
+(S (car (reverse sample)) (cdr (reverse sample)))
