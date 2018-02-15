@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # coding=utf-8
+# hola
+
 """ This module contains an unoptimized example of the solution of calculating
 the loose change of a given amount, this file has a racket file companion """
 
